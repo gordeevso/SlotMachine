@@ -3,6 +3,7 @@
 #include <chrono>
 #include <algorithm>
 #include <vector>
+#include <cmath>
 
 #include "Scene.hpp"
 #include "GLFWWrapper.hpp"
@@ -24,7 +25,7 @@ Scene::Scene() : mSlots{},
     glm::vec2 sizeVec(ResourceManager::GetTexture("button")->GetWidth(),
                       ResourceManager::GetTexture("button")->GetHeight());
     glm::vec2 velocityVec(0.f, 0.f);
-    glm::vec3 colorVec(1.f, 1.f, 1.f);
+    glm::vec3 colorVec(0.3f, 0.f, 0.6f);
 
     mButton = SceneObject{0,
                           positionVec,
@@ -41,9 +42,11 @@ void Scene::Draw(){
         if (pos.y < mSlotsFieldHeight && pos.y > -mSlotHeight) {
             slot.Draw(mSpriteRenderer);
         }
-
-        mButton.Draw(mSpriteRenderer);
     }
+}
+
+void Scene::DrawButton() {
+    mButton.Draw(mSpriteRenderer);
 }
 
 void Scene::Update(float deltaTime) {
@@ -203,10 +206,6 @@ void Scene::GenerateReelParams() {
 
 }
 
-void Scene::SetReadiness(bool isReady) noexcept {
-    for(auto & slot: mSlots)
-        slot.SetReadyForStart(isReady);
-}
 
 bool Scene::CheckReadinessForStart() const noexcept {
     for(auto & slot: mSlots) {
@@ -214,4 +213,20 @@ bool Scene::CheckReadinessForStart() const noexcept {
     }
     return true;
 }
+
+void Scene::UpdateButtonColor() {
+    auto newColorButton = mButton.GetColor();
+    if(newColorButton.y < 1.f  && mButtonColorState) {
+        newColorButton.y += 0.1f;
+        if(newColorButton.y - 1.f >= 0.f) mButtonColorState = false;
+    }
+    if(newColorButton.y > 0.f && !mButtonColorState){
+        newColorButton.y -= 0.1f;
+        if(newColorButton.y <= 0.f) mButtonColorState = true;
+    }
+
+    mButton.SetColor(newColorButton);
+}
+
+
 

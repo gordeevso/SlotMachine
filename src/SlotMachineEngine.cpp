@@ -14,22 +14,27 @@ void SlotMachineEngine::Init() {
 
 void SlotMachineEngine::Run() {
     mPtrTimeManager->UpdateMainLoop();
-
-    mPtrScene->Draw();
-    GLFWWrapper::GetInstance()->SwapBuffers();
+    float elapsed {};
 
     while(!(GLFWWrapper::GetInstance()->CheckCloseWindow()))
     {
         mPtrTimeManager->UpdateMainLoop();
+        elapsed += mPtrTimeManager->FrameTime();
+
         GLFWWrapper::GetInstance()->PollEvents();
 
+        glClearColor(0.5f, 0.2f, 0.7f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
         mPtrScene->Update(mPtrTimeManager->FrameTime());
+        mPtrScene->Draw();
+        mPtrScene->DrawButton();
 
-        if(!mPtrScene->CheckReadinessForStart()) {
-            glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
-            mPtrScene->Draw();
-            GLFWWrapper::GetInstance()->SwapBuffers();
+        if(elapsed > 0.05f) {
+            mPtrScene->UpdateButtonColor();
+            elapsed = 0.f;
         }
+
+        GLFWWrapper::GetInstance()->SwapBuffers();
+
     }
 }

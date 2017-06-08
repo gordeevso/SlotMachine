@@ -32,15 +32,18 @@ public:
     ~Scene() = default;
 
     void Draw();
+    void DrawButton();
+
     void Update(float deltaTime);
+    void UpdateButtonColor();
     void GenerateReelParams();
 
-    void SetReadiness(bool isReady) noexcept ;
     bool CheckReadinessForStart() const noexcept;
 
 private:
     std::vector<SceneObject> mSlots;
     SceneObject mButton;
+    bool mButtonColorState = true;
 
     SpriteRenderer mSpriteRenderer;
     std::minstd_rand0 mRandGenerator;
