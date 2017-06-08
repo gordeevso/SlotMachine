@@ -3,10 +3,11 @@
 #include <chrono>
 #include <thread>
 
-typedef std::chrono::duration<float> duration_float_seconds;
-typedef std::chrono::time_point< std::chrono::steady_clock, duration_float_seconds > timepoint_float_seconds;
 
-duration_float_seconds const TARGET_FRAME_RATE (90.0);
+typedef std::chrono::duration<float> duration_float_seconds;
+typedef std::chrono::time_point< std::chrono::high_resolution_clock , duration_float_seconds > timepoint_float_seconds;
+
+duration_float_seconds const TARGET_FRAME_RATE (60.0);
 duration_float_seconds const TARGET_FRAME_TIME (1.0/TARGET_FRAME_RATE.count());
 
 class TimeManager

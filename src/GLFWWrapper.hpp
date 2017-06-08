@@ -21,6 +21,8 @@ public:
 
     void Init();
 
+    double GetTimeNow() const;
+
     bool CheckCloseWindow() const;
     void PollEvents() const;
     void SwapBuffers();

@@ -53,6 +53,9 @@ void SpriteRenderer::InitSpriteRenderData()
                     1.0f, 1.0f,     1.0f, 1.0f
             };
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glGenVertexArrays(1, &mVAO);
     glGenBuffers(1, &mVBO);
 
@@ -74,8 +77,7 @@ void SpriteRenderer::DrawSprite(std::shared_ptr<Texture> texture,
                                 GLfloat rotate_degrees,
                                 glm::vec3 const & color)
 {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
     mShader.Use();
     glm::mat4 model;

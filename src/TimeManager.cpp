@@ -1,23 +1,26 @@
 
+#include <iostream>
 #include "TimeManager.hpp"
+#include "GLFWWrapper.hpp"
 
 TimeManager::TimeManager() : mLastGetTime{},
                              mTimeCollector{},
                              mFrameTime{},
                              mFps{} {
-    mTimeCollector = std::chrono::steady_clock::now();
+    mTimeCollector = std::chrono::high_resolution_clock::now();
 }
 
 void TimeManager::UpdateMainLoop() {
     mTimeCollector += TARGET_FRAME_TIME;
 
-    mTimeNow = std::chrono::steady_clock::now();
-    mFrameTime = mTimeNow - mLastGetTime;
-    mLastGetTime = mTimeNow;
+    mLastGetTime = std::chrono::high_resolution_clock::now();
+    mFrameTime = mLastGetTime - mTimeNow;
+    mTimeNow = mLastGetTime;
 
+    std::cout << mFrameTime.count() <<  " " << TARGET_FRAME_TIME.count() << "\n";
     mSleepTime = mTimeCollector - mLastGetTime;
 
-    if (mSleepTime > std::chrono::steady_clock::duration::zero()) {
+    if (mSleepTime > std::chrono::high_resolution_clock::duration::zero()) {
         std::this_thread::sleep_for(mSleepTime);
     }
 }
@@ -27,9 +30,9 @@ float TimeManager::GetTimeNow() const noexcept {
 }
 
 void TimeManager::Reset() noexcept {
-    mFrameTime = std::chrono::steady_clock::duration::zero();
-    mLastGetTime = std::chrono::steady_clock::now();
-    mTimeCollector = std::chrono::steady_clock::now();
+    mFrameTime = std::chrono::high_resolution_clock::duration::zero();
+    mLastGetTime = std::chrono::high_resolution_clock::now();
+    mTimeCollector = std::chrono::high_resolution_clock::now();
 }
 
 float TimeManager::FrameTime() noexcept {

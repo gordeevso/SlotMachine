@@ -75,6 +75,10 @@ bool GLFWWrapper::GetMouseButtonState() {
     return mMouseButtonPressed;
 }
 
+double GLFWWrapper::GetTimeNow() const {
+    return glfwGetTime();
+}
+
 
 
 

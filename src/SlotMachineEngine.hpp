@@ -4,6 +4,7 @@
 
 #include "TimeManager.hpp"
 #include "Scene.hpp"
+#include "TextRenderer.hpp"
 
 class SlotMachineEngine {
 public:
@@ -23,9 +24,11 @@ public:
 
     void Init();
     void Run();
+    void DrawFPS(std::string fps);
 
 private:
 
     std::shared_ptr<TimeManager> mPtrTimeManager;
     std::shared_ptr<Scene> mPtrScene;
+    std::shared_ptr<TextRenderer> mPtrTextRenderer;
 };
