@@ -21,11 +21,11 @@ void SlotMachineEngine::Run() {
 
         mPtrScene->Update(mPtrTimeManager->FrameTime());
 
-        glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        mPtrScene->Draw();
-
-        GLContext::GetInstance()->SwapBuffers();
+        if(!mPtrScene->CheckReadinessForStart()) {
+            glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+            mPtrScene->Draw();
+            GLContext::GetInstance()->SwapBuffers();
+        }
     }
 }

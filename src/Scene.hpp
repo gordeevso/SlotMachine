@@ -35,6 +35,9 @@ public:
     void Update(float deltaTime);
     void GenerateReelParams();
 
+    void SetReadiness(bool isReady) noexcept ;
+    bool CheckReadinessForStart() const noexcept;
+
 private:
     std::vector<SceneObject> mSlots;
     SpriteRenderer mSpriteRenderer;

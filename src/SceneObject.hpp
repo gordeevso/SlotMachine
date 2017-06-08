@@ -22,20 +22,22 @@ public:
     ~SceneObject() = default;
     void Draw(SpriteRenderer &renderer);
 
-    void SetReelNumber(uint32_t reelNumber);
-    void SetPosition(glm::vec2 const &position);
-    void SetSize(glm::vec2 const &size);
-    void SetVelocity(glm::vec2 const &velocity);
-    void SetColor(glm::vec3 const &color);
-    void SetRotation(GLfloat rotation);
+    void SetReelNumber(uint32_t reelNumber) noexcept;
+    void SetPosition(glm::vec2 const &position) noexcept;
+    void SetSize(glm::vec2 const &size) noexcept;
+    void SetVelocity(glm::vec2 const &velocity) noexcept;
+    void SetColor(glm::vec3 const &color) noexcept;
+    void SetRotation(GLfloat rotation) noexcept;
+    void SetReadyForStart(bool isReady) noexcept;
 
-    uint32_t GetId() const;
-    uint32_t GetReelNumber() const;
-    glm::vec2 const & GetPosition() const;
-    glm::vec2 const & GetSize() const;
-    glm::vec2 const & GetVelocity() const;
-    glm::vec3 const & GetColor() const;
-    GLfloat           GetRotation() const;
+    uint32_t GetId() const noexcept;
+    uint32_t GetReelNumber() const noexcept;
+    glm::vec2 const & GetPosition() const noexcept;
+    glm::vec2 const & GetSize() const noexcept;
+    glm::vec2 const & GetVelocity() const noexcept;
+    glm::vec3 const & GetColor() const noexcept;
+    GLfloat           GetRotation() const noexcept;
+    bool              GetReadyForStart() const noexcept;
 
 private:
     uint64_t    mId;
@@ -46,6 +48,7 @@ private:
     glm::vec3   mColor;
     GLfloat     mRotation;
     std::shared_ptr<Texture> mPtrTexture;
+    bool        mReadyForStart = false;
     static uint64_t mCounter;
 };
 

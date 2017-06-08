@@ -41,58 +41,68 @@ void SceneObject::Draw(SpriteRenderer &renderer)
 
 }
 
-void SceneObject::SetReelNumber(uint32_t reelNumber) {
+//Getters
+void SceneObject::SetReelNumber(uint32_t reelNumber) noexcept {
     mReelNumber = reelNumber;
 }
 
-void SceneObject::SetPosition(const glm::vec2 &position) {
+void SceneObject::SetPosition(const glm::vec2 &position) noexcept {
     mPosition = position;
 }
 
-void SceneObject::SetSize(const glm::vec2 &size) {
+void SceneObject::SetSize(const glm::vec2 &size) noexcept {
     mSize = size;
 }
 
-void SceneObject::SetVelocity(const glm::vec2 &velocity) {
+void SceneObject::SetVelocity(const glm::vec2 &velocity) noexcept {
     mVelocity = velocity;
 }
 
-void SceneObject::SetColor(const glm::vec3 &color) {
+void SceneObject::SetColor(const glm::vec3 &color) noexcept {
     mColor = color;
 }
 
-void SceneObject::SetRotation(GLfloat rotation) {
+void SceneObject::SetRotation(GLfloat rotation) noexcept {
     mRotation = rotation;
 }
 
+void SceneObject::SetReadyForStart(bool isReady) noexcept {
+    mReadyForStart = isReady;
+}
 
 
-uint32_t SceneObject::GetReelNumber() const {
+
+// Setters
+uint32_t SceneObject::GetReelNumber() const noexcept {
     return mReelNumber;
 }
 
-uint32_t SceneObject::GetId() const {
+uint32_t SceneObject::GetId() const noexcept {
     return mId;
 }
 
-const glm::vec2 &SceneObject::GetPosition() const {
+const glm::vec2 &SceneObject::GetPosition() const noexcept {
     return mPosition;
 }
 
-const glm::vec2 &SceneObject::GetSize() const {
+const glm::vec2 &SceneObject::GetSize() const noexcept {
     return mSize;
 }
 
-const glm::vec2 &SceneObject::GetVelocity() const {
+const glm::vec2 &SceneObject::GetVelocity() const noexcept {
     return mVelocity;
 }
 
-const glm::vec3 &SceneObject::GetColor() const {
+const glm::vec3 &SceneObject::GetColor() const noexcept {
     return mColor;
 }
 
-GLfloat SceneObject::GetRotation() const {
+GLfloat SceneObject::GetRotation() const noexcept {
     return mRotation;
+}
+
+bool SceneObject::GetReadyForStart() const noexcept {
+    return mReadyForStart;
 }
 
 

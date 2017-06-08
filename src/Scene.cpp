@@ -15,9 +15,9 @@ Scene::Scene() : mSlots{},
 }
 
 void Scene::Draw(){
-    for(auto & slot: mSlots) {
+    for (auto &slot: mSlots) {
         auto pos = slot.GetPosition();
-        if(pos.y < mSlotsFieldHeight && pos.y > -mSlotHeight) {
+        if (pos.y < mSlotsFieldHeight && pos.y > -mSlotHeight) {
             slot.Draw(mSpriteRenderer);
         }
     }
@@ -36,7 +36,7 @@ void Scene::Update(float deltaTime) {
             slot.SetVelocity(vel);
 
             if(static_cast<uint32_t>(pos.y) % static_cast<uint32_t>(mSlotHeight) != 0) {
-                glm::vec2 velFinish {0.f, 15.f};
+                glm::vec2 velFinish {0.f, 16.f};
                 pos.y += velFinish.y * deltaTime;
                 slot.SetPosition(pos);
                 for(auto & slotInner: mSlots) {
@@ -46,6 +46,9 @@ void Scene::Update(float deltaTime) {
                         slotInner.SetPosition(posInner);
                     }
                 }
+            }
+            else {
+                slot.SetReadyForStart(true);
             }
             continue;
         }
@@ -150,6 +153,21 @@ void Scene::GenerateReelParams() {
             positionVec.y += sizeVec.y;
             ++cnt;
         }
+
+        mSlots.back().SetReadyForStart(false);
     }
+
+}
+
+void Scene::SetReadiness(bool isReady) noexcept {
+    for(auto & slot: mSlots)
+        slot.SetReadyForStart(isReady);
+}
+
+bool Scene::CheckReadinessForStart() const noexcept {
+    for(auto & slot: mSlots) {
+        if (!slot.GetReadyForStart()) return false;
+    }
+    return true;
 }
 
