@@ -3,7 +3,7 @@
 
 
 GLContext::GLContext() : mWidth{800},
-                         mHeight{600}
+                         mHeight{384}
 {}
 
 GLContext::~GLContext() {

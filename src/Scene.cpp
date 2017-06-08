@@ -6,11 +6,6 @@
 #include "Scene.hpp"
 #include "GLContext.hpp"
 
-glm::vec3 color1(0.5f, 0.1f, 0.3f);
-glm::vec3 color2(0.1f, 0.2f, 0.8f);
-glm::vec3 color3(0.1f, 0.6f, 0.3f);
-glm::vec3 color4(0.9f, 0.4f, 0.9f);
-
 
 Scene::Scene() : mSlots{},
                  mSpriteRenderer{RenderType::RECTANGLE},
@@ -71,8 +66,9 @@ void Scene::Update(float deltaTime) {
 }
 
 void Scene::GenerateReelParams() {
-    mSlotsFieldWidth = GLContext::GetInstance()->GetWidth();
+
     mSlotsFieldHeight = GLContext::GetInstance()->GetHeight();
+    mSlotsFieldWidth = mSlotsFieldHeight / 3.f * 5.f;
 
     mSlotWidth = static_cast<GLfloat>(mSlotsFieldWidth) / mSlotsCountX;
     mSlotHeight = static_cast<GLfloat>(mSlotsFieldHeight) / mSlotsCountY;
@@ -83,7 +79,7 @@ void Scene::GenerateReelParams() {
     float path{};
     float acceleration{};
 
-    uint32_t minSlotPath{5};
+    uint32_t minSlotPath{10};
     uint32_t maxSlotPath{30};
     uint32_t minTimeMSec{240};
     uint32_t maxTimeMSec{360};
