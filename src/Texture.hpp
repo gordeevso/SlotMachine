@@ -11,11 +11,11 @@ public:
     Texture(Texture const &) = default;
     Texture & operator=(Texture const &) = default;
 
-    void setInternalFormat(GLuint internalFormat) noexcept ;
-    void setImageFormat(GLuint imageFormat) noexcept ;
+    void SetInternalFormat(GLuint internalFormat) noexcept ;
+    void SetImageFormat(GLuint imageFormat) noexcept ;
 
-    GLuint const GetInternalFormat() const noexcept ;
-    GLuint const GetImageFormat() const noexcept ;
+    GLuint GetInternalFormat() const noexcept ;
+    GLuint GetImageFormat() const noexcept ;
 
     void Generate(GLint width,
                   GLint height,

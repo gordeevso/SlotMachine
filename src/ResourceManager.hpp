@@ -6,8 +6,8 @@
 #include "Shader.hpp"
 #include "Texture.hpp"
 
-typedef std::unordered_map<std::string, Shader> ShaderUMap;
-typedef std::unordered_map<std::string, Texture> TextureUMap;
+typedef std::unordered_map<std::string, Shader> ShaderMap;
+typedef std::unordered_map<std::string, Texture> TextureMap;
 
 class ResourceManager {
 public:
@@ -26,15 +26,9 @@ private:
     ResourceManager(ResourceManager const &) = delete;
     ResourceManager &operator=(ResourceManager const &) = delete;
 
-    static Shader LoadShaderFromFile(std::string const &vs_file_path,
-                                     std::string const &fs_file_path);
-
-    static Texture loadTextureFromFile(std::string const &texture_path,
-                                       GLboolean alpha);
-
 private:
-    static ShaderUMap mShaders;
-    static TextureUMap mTextures;
+    static ShaderMap mShaders;
+    static TextureMap mTextures;
 };
 
 

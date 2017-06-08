@@ -57,19 +57,19 @@ void Texture::Bind() const noexcept {
     glBindTexture(GL_TEXTURE_2D, mId);
 }
 
-void Texture::setInternalFormat(GLuint internalFormat) noexcept {
+void Texture::SetInternalFormat(GLuint internalFormat) noexcept {
     mInternalFormat = internalFormat;
 }
 
-void Texture::setImageFormat(GLuint imageFormat) noexcept {
+void Texture::SetImageFormat(GLuint imageFormat) noexcept {
     mImageFormat = imageFormat;
 }
 
-GLuint const Texture::GetInternalFormat() const noexcept {
+GLuint Texture::GetInternalFormat() const noexcept {
     return mInternalFormat;
 }
 
-GLuint const Texture::GetImageFormat() const noexcept {
+GLuint Texture::GetImageFormat() const noexcept {
     return mImageFormat;
 }
 

@@ -1,5 +1,10 @@
 #pragma once
 
+#include <memory>
+
+#include "TimeManager.hpp"
+#include "Scene.hpp"
+
 class SlotMachineEngine {
 public:
     static SlotMachineEngine * GetInstance() noexcept {
@@ -21,6 +26,6 @@ public:
 
 private:
 
-
-
+    std::shared_ptr<TimeManager> mPtrTimeManager;
+    std::shared_ptr<Scene> mPtrScene;
 };

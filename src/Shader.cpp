@@ -1,10 +1,4 @@
-#include <iostream>
-
-
 #include "Shader.hpp"
-
-Shader::Shader() : mId{0}
-{}
 
 Shader::~Shader() {
     DeleteProgram();
@@ -14,69 +8,71 @@ void Shader::DeleteProgram() {
     glDeleteProgram(mId);
 }
 
-GLuint const Shader::GetId() const {
-    return mId;
-}
-
 void Shader::Use() const {
     glUseProgram(mId);
 }
 
-GLuint Shader::CreateShader(const GLenum shader_type,
-                            const std::string &shader_source) const {
-    GLint compile_result{};
+GLuint Shader::GetId() const {
+    return mId;
+}
+
+GLuint Shader::CreateShader(const GLenum shaderType,
+                            const std::string &shaderSource) const {
+    GLint compileResult{};
     GLchar log[256];
     GLuint shader{};
 
-    shader = glCreateShader(shader_type);
-    const GLchar * pshader_code = shader_source.c_str();
-    const GLint shader_code_size = shader_source.size();
+    shader = glCreateShader(shaderType);
+    const GLchar * ptrShaderCode = shaderSource.c_str();
+    const GLint shaderCodeSize = shaderSource.size();
 
-    glShaderSource(shader, 1, &pshader_code, &shader_code_size);
+    glShaderSource(shader, 1, &ptrShaderCode, &shaderCodeSize);
     glCompileShader(shader);
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &compile_result);
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &compileResult);
 
-    if (compile_result == GL_FALSE) {
+    if (compileResult == GL_FALSE) {
         glGetShaderInfoLog(shader, sizeof(log), 0, log);
-        switch(shader_type) {
+        switch(shaderType) {
             case GL_VERTEX_SHADER:
-                std::cerr << "Vertex shader_ error: " << log << std::endl;
+                std::cerr << "Vertex shader error: " << log << std::endl;
                 break;
             case GL_FRAGMENT_SHADER:
-                std::cerr << "Fragment shader_ error: " << log << std::endl;
+                std::cerr << "Fragment shader error: " << log << std::endl;
                 break;
         }
 
         if (shader > 0) {
             glDeleteShader(shader);
         }
-        return 0;
+
+        throw std::runtime_error("error compiling shader");
     }
     return shader;
 }
 
-void Shader::CreateProgram(const std::string& vertex_shader_code,
-                           const std::string& fragment_shader_code) {
-    GLuint vertex_shader = CreateShader(GL_VERTEX_SHADER, vertex_shader_code);
-    GLuint fragment_shader = CreateShader(GL_FRAGMENT_SHADER, fragment_shader_code);
+void Shader::CreateProgram(const std::string& vertexShaderCode,
+                           const std::string& fragmentShaderCode) {
+    GLuint vertexShader = CreateShader(GL_VERTEX_SHADER, vertexShaderCode);
+    GLuint fragmentShader = CreateShader(GL_FRAGMENT_SHADER, fragmentShaderCode);
 
     GLchar log[256];
     GLint  link_result{};
 
     mId = glCreateProgram();
-    glAttachShader(mId, vertex_shader);
-    glAttachShader(mId, fragment_shader);
+    glAttachShader(mId, vertexShader);
+    glAttachShader(mId, fragmentShader);
 
     glLinkProgram(mId);
     glGetProgramiv(mId, GL_LINK_STATUS, &link_result);
 
-    glDeleteShader(vertex_shader);
-    glDeleteShader(fragment_shader);
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
 
     if (link_result == GL_FALSE) {
         glGetProgramInfoLog(mId, sizeof(log), 0, log);
         std::cerr << "Shader program error: " << log << std::endl;
-        return;
+
+        throw std::runtime_error("error linking shader");
     }
 }
 
@@ -116,6 +112,9 @@ void Shader::SetVector4f(GLchar const *name, glm::vec4 const & value) {
 void Shader::SetMatrix4(GLchar const *name, glm::mat4 const & matrix) {
     glUniformMatrix4fv(glGetUniformLocation(mId, name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
+
+
+
 
 
 

@@ -26,7 +26,11 @@ set(SOURCE_FILES src/main.cpp
                  src/GLContext.cpp
                  src/Shader.cpp
                  src/ResourceManager.cpp
-                 src/Texture.cpp)
+                 src/Texture.cpp
+                 src/SpriteRenderer.cpp
+                 src/TimeManager.cpp
+                 src/Scene.cpp
+                 src/SceneObject.cpp)
 
 add_executable(SlotMachine ${SOURCE_FILES})
 

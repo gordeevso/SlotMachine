@@ -1,31 +1,31 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
+#include <iostream>
 
-#include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <GL/glew.h>
 
 
 class Shader
 {
-private:
-    GLuint mId;
-
 public:
-    explicit Shader();
+    explicit Shader() = default;
 
     ~Shader();
 
     void Use() const;
-    void DeleteProgram();
-    GLuint const GetId() const;
 
-    GLuint CreateShader(const GLenum shader_type,
-                        const std::string &shader_source) const;
+    GLuint CreateShader(const GLenum shaderType,
+                        const std::string &shaderSource) const;
 
-    void CreateProgram(const std::string& vertex_shader_code,
-                       const std::string& fragment_shader_code);
+    void CreateProgram(std::string const & vertexShaderCode,
+                       std::string const & fragmentShaderCode);
+
+    void DeleteProgram(); 
+    GLuint GetId() const;
 
     void SetFloat    ( GLchar const *name, GLfloat value);
     void SetInteger  ( GLchar const *name, GLint value);
@@ -37,7 +37,11 @@ public:
     void SetVector4f ( GLchar const *name, glm::vec4 const &value);
     void SetMatrix4  ( GLchar const *name, glm::mat4 const &matrix);
 
+private:
+    GLuint mId;
 };
+
+
 
 
 

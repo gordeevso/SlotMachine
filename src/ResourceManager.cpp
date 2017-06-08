@@ -5,8 +5,8 @@
 
 #include "ResourceManager.hpp"
 
-TextureUMap ResourceManager::mTextures;
-ShaderUMap ResourceManager::mShaders;
+TextureMap ResourceManager::mTextures;
+ShaderMap ResourceManager::mShaders;
 
 //Shader-specific functions
 Shader & ResourceManager::GetShader(std::string const &name) {
@@ -16,11 +16,6 @@ Shader & ResourceManager::GetShader(std::string const &name) {
 void ResourceManager::LoadShader(std::string const &vs_file_path,
                                    std::string const &fs_file_path,
                                    std::string const &program_name) {
-    mShaders.insert(std::move(std::make_pair(program_name, LoadShaderFromFile(vs_file_path, fs_file_path))));
-}
-
-Shader ResourceManager::LoadShaderFromFile(std::string const &vs_file_path,
-                                           std::string const &fs_file_path) {
     std::string vs_source;
     std::string fs_source;
 
@@ -44,11 +39,10 @@ Shader ResourceManager::LoadShaderFromFile(std::string const &vs_file_path,
         throw std::invalid_argument(fs_file_path);
     }
 
-    Shader shader;
-    shader.CreateProgram(vs_source, fs_source);
-
-    return shader;
+    mShaders.insert(std::move(std::make_pair(program_name, Shader{})));
+    mShaders[program_name].CreateProgram(vs_source, fs_source);
 }
+
 
 
 //Texture-specific functions
@@ -59,16 +53,11 @@ Texture & ResourceManager::GetTexture(std::string const &name) {
 void ResourceManager::LoadTexture(std::string const &texture_file,
                                   GLboolean alpha,
                                   std::string const &name) {
-    mTextures.insert(std::move(std::make_pair(name, loadTextureFromFile(texture_file, alpha))));
-}
-
-Texture ResourceManager::loadTextureFromFile(std::string const &texture_file,
-                                             GLboolean alpha) {
-    Texture texture{};
+    mTextures.insert(std::move(std::make_pair(name, Texture{})));
 
     if (alpha) {
-        texture.setImageFormat(GL_RGBA);
-        texture.setInternalFormat(GL_RGBA);
+        mTextures[name].SetImageFormat(GL_RGBA);
+        mTextures[name].SetInternalFormat(GL_RGBA);
     }
 
     int32_t width{};
@@ -77,13 +66,14 @@ Texture ResourceManager::loadTextureFromFile(std::string const &texture_file,
                                      &width,
                                      &height,
                                      0,
-                                     texture.GetImageFormat() == GL_RGBA ? SOIL_LOAD_RGBA : SOIL_LOAD_RGB);
+                                     mTextures[name].GetImageFormat() == GL_RGBA ? SOIL_LOAD_RGBA : SOIL_LOAD_RGB);
 
-    texture.Generate(width, height, image);
+    mTextures[name].Generate(width, height, image);
 
     SOIL_free_image_data(image);
-    return texture;
 }
+
+
 
 
 
