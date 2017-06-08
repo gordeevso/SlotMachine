@@ -7,6 +7,7 @@
 
 TextureMap ResourceManager::mTextures;
 ShaderMap ResourceManager::mShaders;
+std::vector<std::string> ResourceManager::mTextureNames;
 
 //Shader-specific functions
 Shader & ResourceManager::GetShader(std::string const &name) {
@@ -46,18 +47,19 @@ void ResourceManager::LoadShader(std::string const &vs_file_path,
 
 
 //Texture-specific functions
-Texture & ResourceManager::GetTexture(std::string const &name) {
+std::shared_ptr<Texture> ResourceManager::GetTexture(std::string const &name) {
     return mTextures[name];
 }
 
 void ResourceManager::LoadTexture(std::string const &texture_file,
                                   GLboolean alpha,
                                   std::string const &name) {
-    mTextures.insert(std::move(std::make_pair(name, Texture{})));
+    mTextures.insert(std::move(std::make_pair(name, new Texture{})));
+    mTextureNames.push_back(name);
 
     if (alpha) {
-        mTextures[name].SetImageFormat(GL_RGBA);
-        mTextures[name].SetInternalFormat(GL_RGBA);
+        mTextures[name]->SetImageFormat(GL_RGBA);
+        mTextures[name]->SetInternalFormat(GL_RGBA);
     }
 
     int32_t width{};
@@ -66,11 +68,15 @@ void ResourceManager::LoadTexture(std::string const &texture_file,
                                      &width,
                                      &height,
                                      0,
-                                     mTextures[name].GetImageFormat() == GL_RGBA ? SOIL_LOAD_RGBA : SOIL_LOAD_RGB);
+                                     mTextures[name]->GetImageFormat() == GL_RGBA ? SOIL_LOAD_RGBA : SOIL_LOAD_RGB);
 
-    mTextures[name].Generate(width, height, image);
+    mTextures[name]->Generate(width, height, image);
 
     SOIL_free_image_data(image);
+}
+
+std::vector<std::string> const & ResourceManager::GetTextureNames() {
+    return mTextureNames;
 }
 
 

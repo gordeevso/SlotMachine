@@ -5,14 +5,12 @@
 
 #include "Scene.hpp"
 #include "GLContext.hpp"
-
+#include "ResourceManager.hpp"
 
 Scene::Scene() : mSlots{},
-                 mSpriteRenderer{RenderType::RECTANGLE},
+                 mSpriteRenderer{},
                  mRandGenerator{static_cast<uint32_t>(std::chrono::system_clock::now().time_since_epoch().count())},
-                 mTargetParams{}
-
-{
+                 mTargetParams{} {
     Scene::GenerateReelParams();
 }
 
@@ -105,26 +103,38 @@ void Scene::GenerateReelParams() {
     glm::vec2 positionVec(0.f, 0.f);
     glm::vec2 sizeVec(mSlotWidth, mSlotHeight);
     glm::vec2 velocityVec(0.f, 0.f);
-    glm::vec3 colorVec(0.1f, 0.4f, 1.f);
+    glm::vec3 colorVec(1.f, 1.f, 1.f);
 
     mSlots.reserve(mSlotsCountPool);
     uint32_t cnt{1};
     uint32_t reelNumber{0};
+
+    auto & vecTextureNames = ResourceManager::GetTextureNames();
+    auto texturesCount = vecTextureNames.size();
+
+    std::cout << "texture count = " << texturesCount << "\n";
+
+    size_t cntTexture {};
     for (uint32_t i = 0; i != mSlotsCountPool; ++i) {
 
+
         velocityVec.y = mTargetParams[reelNumber].mVelocity;
-        mSlots.push_back(std::move(SceneObject{reelNumber, positionVec, sizeVec, colorVec, velocityVec}));
+        mSlots.push_back(std::move(SceneObject{reelNumber,
+                                               positionVec,
+                                               sizeVec,
+                                               colorVec,
+                                               velocityVec,
+                                               ResourceManager::GetTexture(vecTextureNames[cntTexture])}));
+        ++cntTexture;
+        if(cntTexture == texturesCount) cntTexture = 0;
 
         if (cnt == mSlotsCountY * 2) {
             ++reelNumber;
             cnt = 1;
             positionVec.y = 0.f;
             positionVec.x += sizeVec.x;
-            colorVec.y += 0.1f;
-            colorVec.x = 0.1f;
         } else {
             positionVec.y += sizeVec.y;
-            colorVec.x += 0.1f;
             ++cnt;
         }
     }

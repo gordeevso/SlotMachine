@@ -17,24 +17,27 @@ SceneObject::SceneObject(uint32_t reelNumber,
                          glm::vec2 const & pos,
                          glm::vec2 const & size,
                          glm::vec3 const & color,
-                         glm::vec2 const & velocity)
-        : mId(mCounter),
-          mReelNumber(reelNumber),
-          mPosition(pos),
-          mSize(size),
-          mVelocity(velocity),
-          mColor(color),
-          mRotation(0.0f) {
+                         glm::vec2 const & velocity,
+                         std::shared_ptr<Texture> texture)
+        : mId{mCounter},
+          mReelNumber{reelNumber},
+          mPosition{pos},
+          mSize{size},
+          mVelocity{velocity},
+          mColor{color},
+          mRotation{0.0f},
+          mPtrTexture{texture}{
     ++mCounter;
 }
 
 
 void SceneObject::Draw(SpriteRenderer &renderer)
 {
-    renderer.DrawRectangle(mPosition,
-                           mSize,
-                           mRotation,
-                           mColor);
+    renderer.DrawSprite(mPtrTexture,
+                        mPosition,
+                        mSize,
+                        mRotation,
+                        mColor);
 
 }
 

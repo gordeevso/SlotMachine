@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
@@ -13,8 +15,9 @@ public:
     SceneObject(uint32_t reelNumber,
                 glm::vec2 const & pos,
                 glm::vec2 const & size,
-                glm::vec3 const & color = glm::vec3(1.0f),
-                glm::vec2 const & velocity = glm::vec2(0.0f, 0.0f));
+                glm::vec3 const & color,
+                glm::vec2 const & velocity,
+                std::shared_ptr<Texture> texture);
 
     ~SceneObject() = default;
     void Draw(SpriteRenderer &renderer);
@@ -42,7 +45,7 @@ private:
     glm::vec2   mVelocity;
     glm::vec3   mColor;
     GLfloat     mRotation;
-
+    std::shared_ptr<Texture> mPtrTexture;
     static uint64_t mCounter;
 };
 

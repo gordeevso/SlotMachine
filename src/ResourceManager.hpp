@@ -2,12 +2,14 @@
 
 #include <unordered_map>
 #include <string>
+#include <memory>
+#include <vector>
 
 #include "Shader.hpp"
 #include "Texture.hpp"
 
 typedef std::unordered_map<std::string, Shader> ShaderMap;
-typedef std::unordered_map<std::string, Texture> TextureMap;
+typedef std::unordered_map<std::string, std::shared_ptr<Texture>> TextureMap;
 
 class ResourceManager {
 public:
@@ -19,7 +21,8 @@ public:
                                std::string const &name);
 
     static Shader & GetShader(std::string const &name);
-    static Texture & GetTexture(std::string const &name);
+    static std::shared_ptr<Texture> GetTexture(std::string const &name);
+    static std::vector<std::string> const & GetTextureNames();
 
 private:
     ResourceManager() = delete;
@@ -29,6 +32,7 @@ private:
 private:
     static ShaderMap mShaders;
     static TextureMap mTextures;
+    static std::vector<std::string> mTextureNames;
 };
 
 
