@@ -1,6 +1,7 @@
 
 #include "GLFWWrapper.hpp"
 
+bool GLFWWrapper::mMouseButtonPressed = false;
 
 GLFWWrapper::GLFWWrapper() : mWidth{800},
                          mHeight{384}
@@ -26,6 +27,8 @@ void GLFWWrapper::Init()  {
     glewInit();
 
     glViewport(0, 0, mWidth, mHeight);
+
+    glfwSetMouseButtonCallback(mpWindow, MouseButtonStateCallback);
 }
 
 bool GLFWWrapper::CheckCloseWindow() const {
@@ -50,6 +53,26 @@ GLuint const GLFWWrapper::GetWidth() const noexcept {
 
 GLuint const GLFWWrapper::GetHeight() const noexcept {
     return mHeight;
+}
+
+void GLFWWrapper::GetCursorPos(double * posX, double * posY) {
+    glfwGetCursorPos(mpWindow, posX, posY);
+}
+
+void GLFWWrapper::MouseButtonStateCallback(GLFWwindow *window,
+                                           int32_t button,
+                                           int32_t action,
+                                           int32_t mods) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        mMouseButtonPressed = true;
+    }
+    else {
+        mMouseButtonPressed = false;
+    }
+}
+
+bool GLFWWrapper::GetMouseButtonState() {
+    return mMouseButtonPressed;
 }
 
 

@@ -25,13 +25,22 @@ public:
     void PollEvents() const;
     void SwapBuffers();
 
+    void GetCursorPos(double * posX, double * posY);
+    static bool GetMouseButtonState();
+
     GLFWwindow* const GetWindow() const noexcept;
     GLuint      const GetWidth() const noexcept;
     GLuint      const GetHeight() const noexcept;
 
 private:
+    static void MouseButtonStateCallback(GLFWwindow *window,
+                                         int32_t button,
+                                         int32_t action,
+                                         int32_t mods);
+private:
     GLuint mWidth;
     GLuint mHeight;
     GLFWwindow* mpWindow;
 
+    static bool mMouseButtonPressed;
 };

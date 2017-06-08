@@ -14,6 +14,10 @@ void SlotMachineEngine::Init() {
 
 void SlotMachineEngine::Run() {
     mPtrTimeManager->UpdateMainLoop();
+
+    mPtrScene->Draw();
+    GLFWWrapper::GetInstance()->SwapBuffers();
+
     while(!(GLFWWrapper::GetInstance()->CheckCloseWindow()))
     {
         mPtrTimeManager->UpdateMainLoop();

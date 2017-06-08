@@ -87,9 +87,29 @@ void Scene::Update(float deltaTime) {
         slot.SetPosition(pos);
     }
 
+    double mousePosX {};
+    double mousePosY {};
+    GLFWWrapper::GetInstance()->GetCursorPos(&mousePosX, &mousePosY);
+
+    if(mousePosX > mButton.GetPosition().x &&
+       mousePosX < mButton.GetPosition().x + mButton.GetSize().x &&
+       mousePosY > mButton.GetPosition().y &&
+       mousePosY < mButton.GetPosition().y + mButton.GetSize().y &&
+       GLFWWrapper::GetMouseButtonState() &&
+       Scene::CheckReadinessForStart()) {
+
+        GenerateReelParams();
+        for(auto & slot: mSlots) {
+            uint32_t reelNum = slot.GetReelNumber();
+            slot.SetVelocity({0.f, mTargetParams[reelNum].mVelocity});
+        }
+
+    }
 }
 
 void Scene::GenerateReelParams() {
+    mTargetParams.clear();
+    mSlots.clear();
 
     mSlotsFieldHeight = GLFWWrapper::GetInstance()->GetHeight();
     mSlotsFieldWidth = mSlotsFieldHeight / 3.f * 5.f;
@@ -159,7 +179,6 @@ void Scene::GenerateReelParams() {
     size_t cntTexture {};
     for (uint32_t i = 0; i != mSlotsCountPool; ++i) {
 
-        velocityVec.y = mTargetParams[reelNumber].mVelocity;
         mSlots.push_back(std::move(SceneObject{reelNumber,
                                                positionVec,
                                                sizeVec,
