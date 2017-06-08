@@ -1,5 +1,5 @@
 #include <iostream>
-#include "GLContext.hpp"
+#include "GLFWWrapper.hpp"
 #include "SpriteRenderer.hpp"
 #include "ResourceManager.hpp"
 
@@ -32,9 +32,11 @@ void SpriteRenderer::InitSpriteRenderData()
     ResourceManager::LoadTexture("../res/seven_fruits.png", GL_TRUE, "seven_fruits");
     ResourceManager::LoadTexture("../res/diamond.png", GL_TRUE, "diamond");
 
+    ResourceManager::LoadTexture("../res/button.png", GL_TRUE, "button");
+
     glm::mat4 projection = glm::ortho(0.0f,
-                                      static_cast<GLfloat>(GLContext::GetInstance()->GetWidth()),
-                                      static_cast<GLfloat>(GLContext::GetInstance()->GetHeight()),
+                                      static_cast<GLfloat>(GLFWWrapper::GetInstance()->GetWidth()),
+                                      static_cast<GLfloat>(GLFWWrapper::GetInstance()->GetHeight()),
                                       0.0f,
                                       -1.0f,
                                       1.0f);

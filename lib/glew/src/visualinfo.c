@@ -81,10 +81,10 @@ typedef struct GLContextStruct
 #endif
 } GLContext;
 
-void InitContext (GLContext* ctx);
-GLboolean CreateContext (GLContext* ctx);
-void DestroyContext (GLContext* ctx);
-void VisualInfo (GLContext* ctx);
+void InitContext (GLFW* ctx);
+GLboolean CreateContext (GLFW* ctx);
+void DestroyContext (GLFW* ctx);
+void VisualInfo (GLFW* ctx);
 void PrintExtensions (const char* s);
 GLboolean ParseArgs (int argc, char** argv);
 
@@ -102,7 +102,7 @@ int
 main (int argc, char** argv)
 {
   GLenum err;
-  GLContext ctx;
+  GLFW ctx;
 
   /* ---------------------------------------------------------------------- */
   /* parse arguments */
@@ -279,7 +279,7 @@ VisualInfo (GLContext* ctx)
 #elif defined(_WIN32)
 
 void
-VisualInfoARB (GLContext* ctx)
+VisualInfoARB (GLFW* ctx)
 {
   int attrib[32], value[32], n_attrib, n_pbuffer=0, n_float=0;
   int i, pf, maxpf;
@@ -486,7 +486,7 @@ VisualInfoARB (GLContext* ctx)
 }
 
 void
-VisualInfoGDI (GLContext* ctx)
+VisualInfoGDI (GLFW* ctx)
 {
   int i, maxpf;
   PIXELFORMATDESCRIPTOR pfd;
@@ -604,7 +604,7 @@ VisualInfoGDI (GLContext* ctx)
 }
 
 void
-VisualInfo (GLContext* ctx)
+VisualInfo (GLFW* ctx)
 {
   if (WGLEW_ARB_pixel_format)
     VisualInfoARB(ctx);
@@ -1076,14 +1076,14 @@ void DestroyContext (GLContext* ctx)
 
 #elif defined(_WIN32)
 
-void InitContext (GLContext* ctx)
+void InitContext (GLFW* ctx)
 {
   ctx->wnd = NULL;
   ctx->dc = NULL;
   ctx->rc = NULL;
 }
 
-GLboolean CreateContext (GLContext* ctx)
+GLboolean CreateContext (GLFW* ctx)
 {
   WNDCLASS wc;
   PIXELFORMATDESCRIPTOR pfd;
@@ -1122,7 +1122,7 @@ GLboolean CreateContext (GLContext* ctx)
   return GL_FALSE;
 }
 
-void DestroyContext (GLContext* ctx)
+void DestroyContext (GLFW* ctx)
 {
   if (NULL == ctx) return;
   if (NULL != ctx->rc) wglMakeCurrent(NULL, NULL);

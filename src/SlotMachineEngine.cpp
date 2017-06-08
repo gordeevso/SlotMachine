@@ -1,5 +1,5 @@
 #include "SlotMachineEngine.hpp"
-#include "GLContext.hpp"
+#include "GLFWWrapper.hpp"
 
 
 SlotMachineEngine::SlotMachineEngine() : mPtrTimeManager(new TimeManager),
@@ -7,17 +7,17 @@ SlotMachineEngine::SlotMachineEngine() : mPtrTimeManager(new TimeManager),
 {}
 
 void SlotMachineEngine::Init() {
-    GLContext::GetInstance()->Init();
+    GLFWWrapper::GetInstance()->Init();
     mPtrScene.reset(new Scene);
 
 }
 
 void SlotMachineEngine::Run() {
     mPtrTimeManager->UpdateMainLoop();
-    while(!(GLContext::GetInstance()->CheckCloseWindow()))
+    while(!(GLFWWrapper::GetInstance()->CheckCloseWindow()))
     {
         mPtrTimeManager->UpdateMainLoop();
-        GLContext::GetInstance()->PollEvents();
+        GLFWWrapper::GetInstance()->PollEvents();
 
         mPtrScene->Update(mPtrTimeManager->FrameTime());
 
@@ -25,7 +25,7 @@ void SlotMachineEngine::Run() {
             glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
             mPtrScene->Draw();
-            GLContext::GetInstance()->SwapBuffers();
+            GLFWWrapper::GetInstance()->SwapBuffers();
         }
     }
 }

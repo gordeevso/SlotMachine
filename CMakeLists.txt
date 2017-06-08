@@ -23,7 +23,7 @@ add_subdirectory(${LIB_GLEW_DIRECTORY})
 
 set(SOURCE_FILES src/main.cpp
                  src/SlotMachineEngine.cpp
-                 src/GLContext.cpp
+        src/GLFWWrapper.cpp
                  src/Shader.cpp
                  src/ResourceManager.cpp
                  src/Texture.cpp

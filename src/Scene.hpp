@@ -40,6 +40,8 @@ public:
 
 private:
     std::vector<SceneObject> mSlots;
+    SceneObject mButton;
+
     SpriteRenderer mSpriteRenderer;
     std::minstd_rand0 mRandGenerator;
 

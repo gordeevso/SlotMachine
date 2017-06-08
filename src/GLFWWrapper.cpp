@@ -1,16 +1,16 @@
 
-#include "GLContext.hpp"
+#include "GLFWWrapper.hpp"
 
 
-GLContext::GLContext() : mWidth{800},
+GLFWWrapper::GLFWWrapper() : mWidth{800},
                          mHeight{384}
 {}
 
-GLContext::~GLContext() {
+GLFWWrapper::~GLFWWrapper() {
     glfwTerminate();
 }
 
-void GLContext::Init()  {
+void GLFWWrapper::Init()  {
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -28,27 +28,27 @@ void GLContext::Init()  {
     glViewport(0, 0, mWidth, mHeight);
 }
 
-bool GLContext::CheckCloseWindow() const {
+bool GLFWWrapper::CheckCloseWindow() const {
     return static_cast<bool>(glfwWindowShouldClose(mpWindow));
 }
 
-void GLContext::PollEvents() const {
+void GLFWWrapper::PollEvents() const {
     glfwPollEvents();
 }
 
-void GLContext::SwapBuffers() {
+void GLFWWrapper::SwapBuffers() {
     glfwSwapBuffers(mpWindow);
 }
 
-GLFWwindow * const GLContext::GetWindow() const noexcept {
+GLFWwindow * const GLFWWrapper::GetWindow() const noexcept {
     return mpWindow;
 }
 
-GLuint const GLContext::GetWidth() const noexcept {
+GLuint const GLFWWrapper::GetWidth() const noexcept {
     return mWidth;
 }
 
-GLuint const GLContext::GetHeight() const noexcept {
+GLuint const GLFWWrapper::GetHeight() const noexcept {
     return mHeight;
 }
 

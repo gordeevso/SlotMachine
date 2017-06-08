@@ -29,6 +29,8 @@ void Texture::Generate(GLint width,
         throw std::runtime_error("No image in data handled");
     }
 
+    mWidth = width;
+    mHeight = height;
     mAspectRatio = static_cast<GLfloat>(width)/height;
 
     glGenTextures(1, &mId);
@@ -74,8 +76,16 @@ GLuint Texture::GetImageFormat() const noexcept {
     return mImageFormat;
 }
 
-GLuint Texture::GetId() const noexcept{
+GLuint Texture::GetId() const noexcept {
     return mId;
+}
+
+float Texture::GetWidth() const noexcept {
+    return mWidth;
+}
+
+float Texture::GetHeight() const noexcept {
+    return mHeight;
 }
 
 

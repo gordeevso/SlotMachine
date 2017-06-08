@@ -3,21 +3,21 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-class GLContext
+class GLFWWrapper
 {
 public:
-    static GLContext * GetInstance() {
-        static GLContext instance;
+    static GLFWWrapper * GetInstance() {
+        static GLFWWrapper instance;
         return &instance;
     }
 
 private:
-    GLContext();
-    GLContext(GLContext const &) = delete;
-    GLContext & operator=(GLContext const &) = delete;
+    GLFWWrapper();
+    GLFWWrapper(GLFWWrapper const &) = delete;
+    GLFWWrapper & operator=(GLFWWrapper const &) = delete;
 
 public:
-    ~GLContext();
+    ~GLFWWrapper();
 
     void Init();
 

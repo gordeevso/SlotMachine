@@ -17,6 +17,8 @@ public:
     GLuint GetInternalFormat() const noexcept;
     GLuint GetImageFormat() const noexcept;
     GLuint GetId() const noexcept;
+    float  GetWidth() const noexcept;
+    float  GetHeight() const noexcept;
 
     void Generate(GLint width,
                   GLint height,
@@ -31,7 +33,9 @@ private:
     GLuint mWrapT;
     GLuint mFilterMin;
     GLuint mFilterMax;
-    GLfloat mAspectRatio;
+    float mWidth;
+    float mHeight;
+    float mAspectRatio;
 };
 
 

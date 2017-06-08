@@ -2,9 +2,10 @@
 #include <iostream>
 #include <chrono>
 #include <algorithm>
+#include <vector>
 
 #include "Scene.hpp"
-#include "GLContext.hpp"
+#include "GLFWWrapper.hpp"
 #include "ResourceManager.hpp"
 
 Scene::Scene() : mSlots{},
@@ -12,6 +13,26 @@ Scene::Scene() : mSlots{},
                  mRandGenerator{static_cast<uint32_t>(std::chrono::system_clock::now().time_since_epoch().count())},
                  mTargetParams{} {
     Scene::GenerateReelParams();
+
+    float posX = mSlotsFieldWidth +
+                 (GLFWWrapper::GetInstance()->GetWidth() - mSlotsFieldWidth) / 2.f -
+                 ResourceManager::GetTexture("button")->GetWidth() / 2.f;
+    float posY = GLFWWrapper::GetInstance()->GetHeight() / 2.f -
+                 ResourceManager::GetTexture("button")->GetHeight() / 2.f;
+
+    glm::vec2 positionVec(posX, posY);
+    glm::vec2 sizeVec(ResourceManager::GetTexture("button")->GetWidth(),
+                      ResourceManager::GetTexture("button")->GetHeight());
+    glm::vec2 velocityVec(0.f, 0.f);
+    glm::vec3 colorVec(1.f, 1.f, 1.f);
+
+    mButton = SceneObject{0,
+                          positionVec,
+                          sizeVec,
+                          colorVec,
+                          velocityVec,
+                          ResourceManager::GetTexture("button")};
+
 }
 
 void Scene::Draw(){
@@ -20,6 +41,8 @@ void Scene::Draw(){
         if (pos.y < mSlotsFieldHeight && pos.y > -mSlotHeight) {
             slot.Draw(mSpriteRenderer);
         }
+
+        mButton.Draw(mSpriteRenderer);
     }
 }
 
@@ -68,7 +91,7 @@ void Scene::Update(float deltaTime) {
 
 void Scene::GenerateReelParams() {
 
-    mSlotsFieldHeight = GLContext::GetInstance()->GetHeight();
+    mSlotsFieldHeight = GLFWWrapper::GetInstance()->GetHeight();
     mSlotsFieldWidth = mSlotsFieldHeight / 3.f * 5.f;
 
     std::cout << "slotField params "
@@ -126,8 +149,10 @@ void Scene::GenerateReelParams() {
     uint32_t cnt{1};
     uint32_t reelNumber{0};
 
-    auto & vecTextureNames = ResourceManager::GetTextureNames();
-    auto texturesCount = vecTextureNames.size();
+    std::vector<std::string> vecSlotTextureNames {ResourceManager::GetTextureNames().begin(), ResourceManager::GetTextureNames().end()};
+    vecSlotTextureNames.erase(std::find(vecSlotTextureNames.begin(), vecSlotTextureNames.end(), "button"));
+
+    auto texturesCount = vecSlotTextureNames.size();
 
     std::cout << "texture count = " << texturesCount << "\n";
 
@@ -140,7 +165,7 @@ void Scene::GenerateReelParams() {
                                                sizeVec,
                                                colorVec,
                                                velocityVec,
-                                               ResourceManager::GetTexture(vecTextureNames[cntTexture])}));
+                                               ResourceManager::GetTexture(vecSlotTextureNames[cntTexture])}));
         ++cntTexture;
         if(cntTexture == texturesCount) cntTexture = 0;
 
