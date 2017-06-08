@@ -8,12 +8,12 @@
 
 struct SlotParams {
     float mVelocity = 0.f;
-    float mAccelaration = 0.f;
+    float mAcceleration = 0.f;
     float mTime = 0.f;
 
     SlotParams() = default;
     SlotParams(float vel, float acc, float time) : mVelocity(vel),
-                                                   mAccelaration(acc),
+                                                   mAcceleration(acc),
                                                    mTime(time)
     {}
 

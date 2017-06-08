@@ -73,6 +73,14 @@ void ResourceManager::LoadTexture(std::string const &texture_file,
     mTextures[name]->Generate(width, height, image);
 
     SOIL_free_image_data(image);
+
+    std::cout << "w = " << width
+              << " h = " << height
+              << " id = " << mTextures[name]->GetId()
+              << " alpha = " << (int)alpha << " "
+              << name
+              << "\n";
+
 }
 
 std::vector<std::string> const & ResourceManager::GetTextureNames() {

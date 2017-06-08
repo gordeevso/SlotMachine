@@ -52,7 +52,6 @@ void Texture::Generate(GLint width,
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glBindTexture(GL_TEXTURE_2D, 0);
-    std::cout << "aspect ration = " << mAspectRatio << " id = " << mId << "\n";
 }
 
 void Texture::Bind() const noexcept {

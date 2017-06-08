@@ -54,7 +54,7 @@ void Scene::Update(float deltaTime) {
             pos.y -= mSlotHeight * 6;
         }
 
-        vel.y += mTargetParams[num].mAccelaration * deltaTime;
+        vel.y += mTargetParams[num].mAcceleration * deltaTime;
         pos.y += vel.y * deltaTime;
 
         slot.SetVelocity(vel);
@@ -68,9 +68,16 @@ void Scene::GenerateReelParams() {
     mSlotsFieldHeight = GLContext::GetInstance()->GetHeight();
     mSlotsFieldWidth = mSlotsFieldHeight / 3.f * 5.f;
 
+    std::cout << "slotField params "
+              << "width = " << mSlotsFieldWidth << " "
+              << "height = " << mSlotsFieldHeight << "\n";
+
     mSlotWidth = static_cast<GLfloat>(mSlotsFieldWidth) / mSlotsCountX;
     mSlotHeight = static_cast<GLfloat>(mSlotsFieldHeight) / mSlotsCountY;
-    std::cout << "width = " << mSlotWidth << " height = " << mSlotHeight << "\n";
+
+    std::cout << "slot params "
+              << "width = " << mSlotWidth << " "
+              << "height = " << mSlotHeight << "\n";
 
     float velocity{};
     float time{};
@@ -80,7 +87,7 @@ void Scene::GenerateReelParams() {
     uint32_t minSlotPath{10};
     uint32_t maxSlotPath{30};
     uint32_t minTimeMSec{240};
-    uint32_t maxTimeMSec{360};
+    uint32_t maxTimeMSec{300};
 
     for (uint32_t i = 0; i != mSlotsCountX; ++i) {
         auto pathInSlots = (mRandGenerator() % (maxSlotPath - minSlotPath)) + minSlotPath;
@@ -93,12 +100,19 @@ void Scene::GenerateReelParams() {
         acceleration = -(velocity / time);
 
         mTargetParams.push_back(std::move(SlotParams{velocity, acceleration, time}));
-
-        std::cout << "vel = " << velocity << " time = " << time << " path = " << path << " acc = " << acceleration
-                  << "\n";
     }
 
     std::sort(mTargetParams.begin(), mTargetParams.end());
+
+    int32_t reelNum{};
+    for(auto const & p: mTargetParams) {
+        std::cout << "slot number " << reelNum << " "
+                  << "vel = " << p.mVelocity<< " "
+                  << "time = " << p.mTime << " "
+                  << "acc = " << p.mAcceleration<< " "
+                  << "\n";
+        ++reelNum;
+    }
 
     glm::vec2 positionVec(0.f, 0.f);
     glm::vec2 sizeVec(mSlotWidth, mSlotHeight);
@@ -116,7 +130,6 @@ void Scene::GenerateReelParams() {
 
     size_t cntTexture {};
     for (uint32_t i = 0; i != mSlotsCountPool; ++i) {
-
 
         velocityVec.y = mTargetParams[reelNumber].mVelocity;
         mSlots.push_back(std::move(SceneObject{reelNumber,

@@ -18,9 +18,11 @@ SpriteRenderer::~SpriteRenderer() {
 
 void SpriteRenderer::InitSpriteRenderData()
 {
+    std::cout << "loading shader\n";
     ResourceManager::LoadShader("../shaders/sprite.vs", "../shaders/sprite.fs", SPRITE_SHADER);
     mShader = ResourceManager::GetShader(SPRITE_SHADER);
 
+    std::cout << "loading textures \n";
     ResourceManager::LoadTexture("../res/apple.png", GL_TRUE, "apple");
     ResourceManager::LoadTexture("../res/cash.png", GL_TRUE, "cash");
     ResourceManager::LoadTexture("../res/cherry.png", GL_TRUE, "cherry");
@@ -84,6 +86,7 @@ void SpriteRenderer::DrawSprite(std::shared_ptr<Texture> texture,
     model = glm::scale(model, glm::vec3(size, 1.0f)); // Last scale
 
     mShader.SetMatrix4("model", model);
+    mShader.SetVector3f("spriteColor", color);
 
     texture->Bind();
     glActiveTexture(GL_TEXTURE0);
