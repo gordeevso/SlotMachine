@@ -6,57 +6,50 @@
 
 SlotMachineEngine::SlotMachineEngine() : mPtrTimeManager(new TimeManager),
                                          mPtrScene(nullptr),
-                                         mPtrTextRenderer(nullptr)
+                                         mPtrTextRenderer(nullptr),
+                                         mPtrRenderToTexture(nullptr)
 {}
 
 void SlotMachineEngine::Init() {
     GLFWWrapper::GetInstance()->Init();
     mPtrScene.reset(new Scene);
     mPtrTextRenderer.reset(new TextRenderer);
+    mPtrRenderToTexture.reset(new RenderToTexture);
 
-    mPtrTextRenderer->Load("../res/fonts/HTOWERT.TTF", 24);
+    mPtrTextRenderer->Init("../res/fonts/BKANT.TTF", 48);
+    mPtrRenderToTexture->Init();
 
 }
 
 void SlotMachineEngine::Run() {
 
-    float elapsed {};
-    float lastTime = static_cast<float>(GLFWWrapper::GetInstance()->GetTimeNow());
-    float targetFrameTime = 1.f / 60.f;
-    float timer = lastTime;
-    float deltaTime = {};
-    float nowTime = {};
-    float sleepTime {};
+    mPtrTimeManager->UpdateMainLoop();
+    float lastFPS {};
 
     while(!(GLFWWrapper::GetInstance()->CheckCloseWindow()))
     {
-        timer += targetFrameTime;
-        nowTime = static_cast<float>(GLFWWrapper::GetInstance()->GetTimeNow());
-        deltaTime = nowTime - lastTime;
-        lastTime = nowTime;
-
-        sleepTime = timer - nowTime;
-
-        elapsed += deltaTime;
-
-        if (sleepTime > 0.f) {
-            Sleep(sleepTime * 1000.f);
-        }
+        mPtrTimeManager->UpdateMainLoop();
 
         GLFWWrapper::GetInstance()->PollEvents();
 
-        glClearColor(0.5f, 0.4f, 0.5f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        mPtrScene->Update(mPtrTimeManager->FrameTime());
 
-        mPtrScene->Update(deltaTime);
+        mPtrRenderToTexture->PreRender();
+
         mPtrScene->Draw();
         mPtrScene->DrawButton();
-        DrawFPS(std::to_string(1.f/deltaTime));
 
-        if(elapsed > 0.05f) {
+        if(mPtrTimeManager->GetElapsed() > 0.05f) {
             mPtrScene->UpdateButtonColor();
-            elapsed = 0.f;
+            DrawFPS(std::to_string(static_cast<int32_t>(mPtrTimeManager->FramesPerSecond())));
+            lastFPS = mPtrTimeManager->FramesPerSecond();
+            mPtrTimeManager->ResetElapsed();
         }
+        else {
+            DrawFPS(std::to_string(static_cast<int32_t>(lastFPS)));
+        }
+
+        mPtrRenderToTexture->PostRender();
 
         GLFWWrapper::GetInstance()->SwapBuffers();
 
@@ -65,8 +58,8 @@ void SlotMachineEngine::Run() {
 
 void SlotMachineEngine::DrawFPS(std::string fps) {
     mPtrTextRenderer->RenderText(fps,
-                                 GLFWWrapper::GetInstance()->GetWidth() - 100.f,
-                                 GLFWWrapper::GetInstance()->GetHeight() - 24.f,
+                                 GLFWWrapper::GetInstance()->GetWidth() - 50.f,
+                                 GLFWWrapper::GetInstance()->GetHeight() - 40.f,
                                  1.0f,
-                                 glm::vec3(0.3f, 0.2f, 0.8f));
+                                 glm::vec3(0.2f, 0.2f, 0.8f));
 }

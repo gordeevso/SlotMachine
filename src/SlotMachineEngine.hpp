@@ -5,6 +5,7 @@
 #include "TimeManager.hpp"
 #include "Scene.hpp"
 #include "TextRenderer.hpp"
+#include "RenderToTexture.hpp"
 
 class SlotMachineEngine {
 public:
@@ -31,4 +32,5 @@ private:
     std::shared_ptr<TimeManager> mPtrTimeManager;
     std::shared_ptr<Scene> mPtrScene;
     std::shared_ptr<TextRenderer> mPtrTextRenderer;
+    std::shared_ptr<RenderToTexture> mPtrRenderToTexture;
 };

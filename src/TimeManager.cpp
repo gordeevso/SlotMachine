@@ -1,49 +1,61 @@
+#include <windows.h>
 
-#include <iostream>
 #include "TimeManager.hpp"
 #include "GLFWWrapper.hpp"
 
-TimeManager::TimeManager() : mLastGetTime{},
-                             mTimeCollector{},
-                             mFrameTime{},
-                             mFps{} {
-    mTimeCollector = std::chrono::high_resolution_clock::now();
+float const TARGET_FRAME_RATE = 60.f;
+float const TARGET_FRAME_TIME = 1.f / TARGET_FRAME_RATE;
+
+TimeManager::TimeManager() :  mElapsed {},
+                              mLastGetTime {},
+                              mTimer{},
+                              mFrameTime{},
+                              mNowTime{},
+                              mSleepTime{},
+                              mFPS{} {
+    mLastGetTime = GetTimeNow();
 }
 
 void TimeManager::UpdateMainLoop() {
-    mTimeCollector += TARGET_FRAME_TIME;
+    mTimer += TARGET_FRAME_TIME;
 
-    mLastGetTime = std::chrono::high_resolution_clock::now();
-    mFrameTime = mLastGetTime - mTimeNow;
-    mTimeNow = mLastGetTime;
+    mNowTime = GetTimeNow();
+    mFrameTime = mNowTime - mLastGetTime;
+    mLastGetTime = mNowTime;
 
-    std::cout << mFrameTime.count() <<  " " << TARGET_FRAME_TIME.count() << "\n";
-    mSleepTime = mTimeCollector - mLastGetTime;
+    mFPS = 1.f / mFrameTime;
+    mSleepTime = mTimer - mNowTime;
 
-    if (mSleepTime > std::chrono::high_resolution_clock::duration::zero()) {
-        std::this_thread::sleep_for(mSleepTime);
+    mElapsed += mFrameTime;
+
+    if (mSleepTime > 0.f) {
+        Sleep(static_cast<uint32_t>(mSleepTime * 1000.f));
     }
 }
 
 float TimeManager::GetTimeNow() const noexcept {
-    return mTimeNow.time_since_epoch().count();
+    return static_cast<float>(GLFWWrapper::GetInstance()->GetTimeNow());
 }
 
 void TimeManager::Reset() noexcept {
-    mFrameTime = std::chrono::high_resolution_clock::duration::zero();
-    mLastGetTime = std::chrono::high_resolution_clock::now();
-    mTimeCollector = std::chrono::high_resolution_clock::now();
+    mFrameTime = 0.f;
+    mLastGetTime = GetTimeNow();
+    mTimer = GetTimeNow();
 }
 
 float TimeManager::FrameTime() noexcept {
-    return mFrameTime.count();
+    return mFrameTime;
 }
 
 float TimeManager::FramesPerSecond() noexcept {
-    if (mFrameTime > std::chrono::steady_clock::duration::zero()) {
-        mFps = 1.f / FrameTime();
-        return mFps;
-    }
-    return 0.0;
+    return mFPS;
+}
+
+float TimeManager::GetElapsed() const noexcept {
+    return mElapsed;
+}
+
+void TimeManager::ResetElapsed() noexcept {
+    mElapsed = 0.f;
 }
 

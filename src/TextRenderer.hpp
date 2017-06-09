@@ -4,33 +4,39 @@
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
-#include "Texture.hpp"
 #include "Shader.hpp"
 
 
-/// Holds all state information relevant to a character as loaded using FreeType
-struct Character {
-    GLuint TextureID;   // ID handle of the glyph texture
-    glm::ivec2 Size;    // Size of glyph
-    glm::ivec2 Bearing; // Offset from baseline to left/top of glyph
-    GLuint Advance;     // Horizontal offset to advance to next glyph
+struct FreeTypeCharacter {
+    GLuint mId;          // GL texture id
+    glm::ivec2 mSize;    // Size of glyph
+    glm::ivec2 mBearing; // Offset from baseline to left/top of glyph
+    FT_Pos mAdvance;     // Horizontal offset to advance to next glyph
 };
 
 
-// A renderer class for rendering text displayed by a font loaded using the
-// FreeType library. A single font is loaded, processed into a list of Character
-// items for later rendering.
 class TextRenderer
 {
 public:
-    std::unordered_map<GLchar, Character> Characters;
-    Shader TextShader;
-
     TextRenderer();
-    void Load(std::string font, GLuint fontSize);
+    ~TextRenderer();
+    TextRenderer(TextRenderer const &) = default;
+    TextRenderer &operator=(TextRenderer const &) = default;
 
-    void RenderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color = glm::vec3(1.0f));
+    void Init(std::string font, GLuint fontSize);
+
+    void RenderText(std::string text,
+                  GLfloat x,
+                  GLfloat y,
+                  GLfloat scale,
+                  glm::vec3 const & color = glm::vec3(1.0f));
+
 private:
-    GLuint VAO, VBO;
+    std::unordered_map<GLchar, FreeTypeCharacter> mCharactersMap;
+    Shader mShader;
+    GLuint mVAO;
+    GLuint mVBO;
 };

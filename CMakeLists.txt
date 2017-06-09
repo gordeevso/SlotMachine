@@ -35,7 +35,8 @@ set(SOURCE_FILES src/main.cpp
                  src/TimeManager.cpp
                  src/Scene.cpp
                  src/SceneObject.cpp
-                 src/TextRenderer.cpp)
+                 src/TextRenderer.cpp
+                 src/RenderToTexture.cpp)
 
 add_executable(SlotMachine ${SOURCE_FILES})
 
