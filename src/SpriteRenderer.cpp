@@ -1,4 +1,3 @@
-#include <iostream>
 #include "GLFWWrapper.hpp"
 #include "SpriteRenderer.hpp"
 #include "ResourceManager.hpp"
@@ -18,11 +17,11 @@ SpriteRenderer::~SpriteRenderer() {
 
 void SpriteRenderer::InitSpriteRenderData()
 {
-    std::cout << "loading shader\n";
+//    std::cout << "loading shader\n";
     ResourceManager::LoadShader("../shaders/sprite.vs", "../shaders/sprite.fs", SPRITE_SHADER);
     mShader = ResourceManager::GetShader(SPRITE_SHADER);
 
-    std::cout << "loading textures \n";
+//    std::cout << "loading textures \n";
     ResourceManager::LoadTexture("../res/apple.png", GL_TRUE, "apple");
     ResourceManager::LoadTexture("../res/cash.png", GL_TRUE, "cash");
     ResourceManager::LoadTexture("../res/cherry.png", GL_TRUE, "cherry");
@@ -81,13 +80,17 @@ void SpriteRenderer::DrawSprite(std::shared_ptr<Texture> texture,
 
     mShader.Use();
     glm::mat4 model;
-    model = glm::translate(model, glm::vec3(position, 0.0f));  // First translate (transformations are: scale happens first, then rotation and then finall translation happens; reversed order)
 
-    model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f)); // Move origin of rotation to center of quad
-    model = glm::rotate(model, glm::radians(rotate_degrees), glm::vec3(0.0f, 0.0f, 1.0f)); // Then rotate_degrees
-    model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f)); // Move origin back
-
-    model = glm::scale(model, glm::vec3(size, 1.0f)); // Last scale
+    model = glm::translate(model, glm::vec3(position, 0.0f));
+    // First translate (transformations are: scale happens first, then rotation and then finall translation happens; reversed order)
+    model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
+    // Move origin of rotation to center of quad
+    model = glm::rotate(model, glm::radians(rotate_degrees), glm::vec3(0.0f, 0.0f, 1.0f));
+    // Then rotate_degrees
+    model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
+    // Move origin back
+    model = glm::scale(model, glm::vec3(size, 1.0f));
+    // Last scale
 
     mShader.SetMatrix4("model", model);
     mShader.SetVector3f("spriteColor", color);

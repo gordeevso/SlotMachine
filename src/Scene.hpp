@@ -43,13 +43,20 @@ public:
 private:
     std::vector<SceneObject> mSlots;
     SceneObject mButton;
+    //needed for correct color updating
+    //0.f -> 1.f  then 1.f -> 0.f
     bool mButtonColorState = true;
 
+    //Slot and button drawing
     SpriteRenderer mSpriteRenderer;
+
+    //used for generating target animating time (4 - 5 sec)
+    //and generating path for each slot
     std::minstd_rand0 mRandGenerator;
 
     uint32_t mSlotsCountX = 5;
     uint32_t mSlotsCountY = 3;
+    //Total slots count
     uint32_t mSlotsCountPool = mSlotsCountX * mSlotsCountY * 2;
 
     float mSlotsFieldWidth = 0.f;

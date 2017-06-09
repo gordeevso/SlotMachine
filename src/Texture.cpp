@@ -1,6 +1,5 @@
 #include <exception>
 #include <stdexcept>
-#include <iostream>
 
 #include "Texture.hpp"
 

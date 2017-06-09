@@ -1,5 +1,3 @@
-
-#include <iostream>
 #include <chrono>
 #include <algorithm>
 #include <vector>
@@ -51,6 +49,9 @@ void Scene::DrawButton() {
 
 void Scene::Update(float deltaTime) {
 
+    //loop through all slots
+    //updating their speed until it get to zero
+    //and after that with constant speed moving to edge of window
     for(auto & slot: mSlots) {
         auto pos = slot.GetPosition();
         auto num = slot.GetReelNumber();
@@ -94,6 +95,9 @@ void Scene::Update(float deltaTime) {
     double mousePosY {};
     GLFWWrapper::GetInstance()->GetCursorPos(&mousePosX, &mousePosY);
 
+    //handle button click
+    //can be handled only when all slots
+    //have zero velocity
     if(mousePosX > mButton.GetPosition().x &&
        mousePosX < mButton.GetPosition().x + mButton.GetSize().x &&
        mousePosY > mButton.GetPosition().y &&
@@ -110,6 +114,9 @@ void Scene::Update(float deltaTime) {
     }
 }
 
+//each button click (when handled)
+//generates new parameters for each slot
+//speed, acceleration, velocity, etc
 void Scene::GenerateReelParams() {
     mTargetParams.clear();
     mSlots.clear();
@@ -117,16 +124,16 @@ void Scene::GenerateReelParams() {
     mSlotsFieldHeight = GLFWWrapper::GetInstance()->GetHeight();
     mSlotsFieldWidth = mSlotsFieldHeight / 3.f * 5.f;
 
-    std::cout << "slotField params "
-              << "width = " << mSlotsFieldWidth << " "
-              << "height = " << mSlotsFieldHeight << "\n";
+//    std::cout << "slotField params "
+//              << "width = " << mSlotsFieldWidth << " "
+//              << "height = " << mSlotsFieldHeight << "\n";
 
     mSlotWidth = static_cast<GLfloat>(mSlotsFieldWidth) / mSlotsCountX;
     mSlotHeight = static_cast<GLfloat>(mSlotsFieldHeight) / mSlotsCountY;
 
-    std::cout << "slot params "
-              << "width = " << mSlotWidth << " "
-              << "height = " << mSlotHeight << "\n";
+//    std::cout << "slot params "
+//              << "width = " << mSlotWidth << " "
+//              << "height = " << mSlotHeight << "\n";
 
     float velocity{};
     float time{};
@@ -153,15 +160,15 @@ void Scene::GenerateReelParams() {
 
     std::sort(mTargetParams.begin(), mTargetParams.end());
 
-    int32_t reelNum{};
-    for(auto const & p: mTargetParams) {
-        std::cout << "slot number " << reelNum << " "
-                  << "vel = " << p.mVelocity<< " "
-                  << "time = " << p.mTime << " "
-                  << "acc = " << p.mAcceleration<< " "
-                  << "\n";
-        ++reelNum;
-    }
+//    int32_t reelNum{};
+//    for(auto const & p: mTargetParams) {
+//        std::cout << "slot number " << reelNum << " "
+//                  << "vel = " << p.mVelocity<< " "
+//                  << "time = " << p.mTime << " "
+//                  << "acc = " << p.mAcceleration<< " "
+//                  << "\n";
+//        ++reelNum;
+//    }
 
     glm::vec2 positionVec(0.f, 0.f);
     glm::vec2 sizeVec(mSlotWidth, mSlotHeight);
@@ -177,7 +184,7 @@ void Scene::GenerateReelParams() {
 
     auto texturesCount = vecSlotTextureNames.size();
 
-    std::cout << "texture count = " << texturesCount << "\n";
+//    std::cout << "texture count = " << texturesCount << "\n";
 
     size_t cntTexture {};
     for (uint32_t i = 0; i != mSlotsCountPool; ++i) {
@@ -206,7 +213,8 @@ void Scene::GenerateReelParams() {
 
 }
 
-
+//returns true if only all slots have
+//zero velocity
 bool Scene::CheckReadinessForStart() const noexcept {
     for(auto & slot: mSlots) {
         if (!slot.GetReadyForStart()) return false;

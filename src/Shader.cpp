@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Shader.hpp"
 
 Shader::~Shader() {

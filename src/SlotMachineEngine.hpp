@@ -23,7 +23,6 @@ private:
 public:
     ~SlotMachineEngine() = default;
 
-    void Init();
     void Run();
     void DrawFPS(std::string fps);
 

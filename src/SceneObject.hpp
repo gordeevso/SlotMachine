@@ -8,6 +8,7 @@
 #include "Texture.hpp"
 #include "SpriteRenderer.hpp"
 
+//Each slot is SceneObject
 class SceneObject
 {
 public:

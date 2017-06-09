@@ -1,4 +1,3 @@
-
 #include "GLFWWrapper.hpp"
 
 bool GLFWWrapper::mMouseButtonPressed = false;
@@ -19,8 +18,8 @@ void GLFWWrapper::Init()  {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    mpWindow = glfwCreateWindow(mWidth, mHeight, "SlotMachine", nullptr, nullptr);
-    glfwMakeContextCurrent(mpWindow);
+    mPtrWindow = glfwCreateWindow(mWidth, mHeight, "SlotMachine", nullptr, nullptr);
+    glfwMakeContextCurrent(mPtrWindow);
     // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
     glewExperimental = GL_TRUE;
     // Initialize GLEW to setup the OpenGL Function pointers
@@ -28,11 +27,11 @@ void GLFWWrapper::Init()  {
 
     glViewport(0, 0, mWidth, mHeight);
 
-    glfwSetMouseButtonCallback(mpWindow, MouseButtonStateCallback);
+    glfwSetMouseButtonCallback(mPtrWindow, MouseButtonStateCallback);
 }
 
 bool GLFWWrapper::CheckCloseWindow() const {
-    return static_cast<bool>(glfwWindowShouldClose(mpWindow));
+    return static_cast<bool>(glfwWindowShouldClose(mPtrWindow));
 }
 
 void GLFWWrapper::PollEvents() const {
@@ -40,11 +39,11 @@ void GLFWWrapper::PollEvents() const {
 }
 
 void GLFWWrapper::SwapBuffers() {
-    glfwSwapBuffers(mpWindow);
+    glfwSwapBuffers(mPtrWindow);
 }
 
 GLFWwindow * const GLFWWrapper::GetWindow() const noexcept {
-    return mpWindow;
+    return mPtrWindow;
 }
 
 GLuint const GLFWWrapper::GetWidth() const noexcept {
@@ -56,7 +55,7 @@ GLuint const GLFWWrapper::GetHeight() const noexcept {
 }
 
 void GLFWWrapper::GetCursorPos(double * posX, double * posY) {
-    glfwGetCursorPos(mpWindow, posX, posY);
+    glfwGetCursorPos(mPtrWindow, posX, posY);
 }
 
 void GLFWWrapper::MouseButtonStateCallback(GLFWwindow *window,

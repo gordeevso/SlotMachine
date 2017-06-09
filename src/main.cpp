@@ -1,8 +1,9 @@
 #include "SlotMachineEngine.hpp"
+#include "GLFWWrapper.hpp"
 
 int main() {
 
-    SlotMachineEngine::GetInstance()->Init();
+    GLFWWrapper::GetInstance()->Init();
     SlotMachineEngine::GetInstance()->Run();
 
     return 0;

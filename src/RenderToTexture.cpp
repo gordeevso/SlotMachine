@@ -1,3 +1,4 @@
+#include <iostream>
 
 #include "RenderToTexture.hpp"
 #include "ResourceManager.hpp"
@@ -10,8 +11,9 @@ RenderToTexture::RenderToTexture() : mShader{},
                                      mTBO{},
                                      mRBO{},
                                      mVAO{},
-                                     mVBO{}
-{}
+                                     mVBO{} {
+    RenderToTexture::Init();
+}
 
 RenderToTexture::~RenderToTexture() {
     glDeleteTextures(1, &mTBO);

@@ -35,14 +35,18 @@ public:
     GLuint      const GetHeight() const noexcept;
 
 private:
+    //callback which will be called during PollEvents() in main loop
     static void MouseButtonStateCallback(GLFWwindow *window,
                                          int32_t button,
                                          int32_t action,
                                          int32_t mods);
 private:
+    //window params
     GLuint mWidth;
     GLuint mHeight;
-    GLFWwindow* mpWindow;
+    //pointer to some GLFW stuff like OpenGL context
+    GLFWwindow* mPtrWindow;
 
+    //state to handle on start button click
     static bool mMouseButtonPressed;
 };

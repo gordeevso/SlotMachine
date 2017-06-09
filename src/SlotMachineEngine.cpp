@@ -1,45 +1,40 @@
-#include <windows.h>
-
 #include "SlotMachineEngine.hpp"
 #include "GLFWWrapper.hpp"
 
+float const FPS_UPDATE_LIMIT_TIME = 0.05f;
 
 SlotMachineEngine::SlotMachineEngine() : mPtrTimeManager(new TimeManager),
-                                         mPtrScene(nullptr),
-                                         mPtrTextRenderer(nullptr),
-                                         mPtrRenderToTexture(nullptr)
+                                         mPtrScene(new Scene),
+                                         mPtrTextRenderer(new TextRenderer),
+                                         mPtrRenderToTexture(new RenderToTexture)
 {}
 
-void SlotMachineEngine::Init() {
-    GLFWWrapper::GetInstance()->Init();
-    mPtrScene.reset(new Scene);
-    mPtrTextRenderer.reset(new TextRenderer);
-    mPtrRenderToTexture.reset(new RenderToTexture);
-
-    mPtrTextRenderer->Init("../res/fonts/BKANT.TTF", 48);
-    mPtrRenderToTexture->Init();
-
-}
 
 void SlotMachineEngine::Run() {
 
     mPtrTimeManager->UpdateMainLoop();
     float lastFPS {};
 
-    while(!(GLFWWrapper::GetInstance()->CheckCloseWindow()))
-    {
+    while(!(GLFWWrapper::GetInstance()->CheckCloseWindow())) {
+        //update frame time based on constand target fps
         mPtrTimeManager->UpdateMainLoop();
 
+        //polling events like mouse button click
         GLFWWrapper::GetInstance()->PollEvents();
 
+        //calculating all moves
         mPtrScene->Update(mPtrTimeManager->FrameTime());
 
+        //drawing all stuff to texture
+        //then drawing this texture
         mPtrRenderToTexture->PreRender();
 
+        //drawing all slots
         mPtrScene->Draw();
         mPtrScene->DrawButton();
 
-        if(mPtrTimeManager->GetElapsed() > 0.05f) {
+        //updating fps and button color more smoothly
+        if(mPtrTimeManager->GetElapsed() > FPS_UPDATE_LIMIT_TIME) {
             mPtrScene->UpdateButtonColor();
             DrawFPS(std::to_string(static_cast<int32_t>(mPtrTimeManager->FramesPerSecond())));
             lastFPS = mPtrTimeManager->FramesPerSecond();
@@ -49,10 +44,10 @@ void SlotMachineEngine::Run() {
             DrawFPS(std::to_string(static_cast<int32_t>(lastFPS)));
         }
 
+        //drawing texture with all stuff
         mPtrRenderToTexture->PostRender();
 
         GLFWWrapper::GetInstance()->SwapBuffers();
-
     }
 }
 

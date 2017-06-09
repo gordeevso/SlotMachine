@@ -11,8 +11,9 @@ std::string const TEXT_SHADER = "text_shader";
 TextRenderer::TextRenderer() : mCharactersMap{},
                                mShader{},
                                mVAO{},
-                               mVBO{}
-{}
+                               mVBO{} {
+    Init("../res/fonts/BKANT.TTF", 48);
+}
 
 void TextRenderer::Init(std::string font, GLuint fontSize)
 {
