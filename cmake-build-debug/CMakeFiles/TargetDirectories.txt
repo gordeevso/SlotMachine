@@ -1,0 +1,17 @@
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/CMakeFiles/SlotMachine.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/CMakeFiles/install.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/CMakeFiles/install/local.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/CMakeFiles/list_install_components.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/CMakeFiles/install/strip.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/lib/glew/CMakeFiles/glewinfo.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/lib/glew/CMakeFiles/glew.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/lib/glew/CMakeFiles/glew_s.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/lib/glew/CMakeFiles/visualinfo.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/lib/glew/CMakeFiles/edit_cache.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/lib/glew/CMakeFiles/install.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/lib/glew/CMakeFiles/install/local.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/lib/glew/CMakeFiles/rebuild_cache.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/lib/glew/CMakeFiles/list_install_components.dir
+D:/Programming/sandbox/SlotMachine/cmake-build-debug/lib/glew/CMakeFiles/install/strip.dir

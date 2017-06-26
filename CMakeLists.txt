@@ -21,8 +21,6 @@ link_directories(${LIB_GLFW_DIRECTORY})
 link_directories(${LIB_SOIL_DIRECTORY})
 link_directories(${LIB_FREETYPE_DIRECTORY})
 
-find_library(OPENGL_gl_LIBRARY REQUIRED)
-
 add_subdirectory(${LIB_GLEW_DIRECTORY})
 
 set(SOURCE_FILES src/main.cpp
@@ -42,6 +40,6 @@ add_executable(SlotMachine ${SOURCE_FILES})
 
 target_link_libraries(SlotMachine SOIL.a
                                   freetype
-                                  ${OPENGL_gl_LIBRARY}
+                                  opengl32
                                   glew
                                   glfw3)

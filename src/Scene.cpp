@@ -63,7 +63,7 @@ void Scene::Update(float deltaTime) {
             slot.SetVelocity(vel);
 
             if(static_cast<uint32_t>(pos.y) % static_cast<uint32_t>(mSlotHeight) != 0) {
-                glm::vec2 velFinish {0.f, 16.f};
+                glm::vec2 velFinish {0.f, 10.f};
                 pos.y += velFinish.y * deltaTime;
                 slot.SetPosition(pos);
                 for(auto & slotInner: mSlots) {

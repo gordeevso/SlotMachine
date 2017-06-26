@@ -1,0 +1,25 @@
+"C:\Program Files (x86)\JetBrains\CLion 2016.3.2\bin\cmake\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" D:\Programming\sandbox\SlotMachine
+CMake Warning (dev) at C:/Program Files (x86)/JetBrains/CLion 2016.3.2/bin/cmake/share/cmake-3.6/Modules/FindOpenGL.cmake:154 (if):
+  Policy CMP0054 is not set: Only interpret if() arguments as variables or
+  keywords when unquoted.  Run "cmake --help-policy CMP0054" for policy
+  details.  Use the cmake_policy command to set the policy and suppress this
+  warning.
+
+  Quoted variables like "opengl32" will no longer be dereferenced when the
+  policy is set to NEW.  Since the policy is not set the OLD behavior will be
+  used.
+Call Stack (most recent call first):
+  lib/glew/CMakeLists.txt:46 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Configuring done
+CMake Error:
+  Error evaluating generator expression:
+
+    $<TARGET_PDB_FILE:glew>
+
+  TARGET_PDB_FILE is not supported by the target linker.
+
+
+-- Generating done
+-- Build files have been written to: D:/Programming/sandbox/SlotMachine/cmake-build-debug
